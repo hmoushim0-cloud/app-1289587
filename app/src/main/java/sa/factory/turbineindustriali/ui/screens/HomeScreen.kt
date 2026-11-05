@@ -52,11 +52,45 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text("العتاد الحي: ${state.telemetry?.peripheralName ?: '3-Axis Vibration Accelerometer + Modbus RS485 Acoustic Probe'}", fontWeight = FontWeight.Bold, color = BrandPrimary, fontSize = 13.sp)
+                    val fallbackName = "3-Axis Vibration Accelerometer + Modbus RS485 Acoustic Probe"
+                    Text("العتاد الحي: ${state.telemetry?.peripheralName ?: fallbackName}", fontWeight = FontWeight.Bold, color = BrandPrimary, fontSize = 13.sp)
                     Text(state.telemetry?.liveReading ?: "3-Axis Vibration Accelerometer + Modbus RS485 Acoustic Probe: ONLINE | READY", fontSize = 11.sp, color = BrandTextSecondary)
                 }
                 Badge(containerColor = BrandPrimary) {
                     Text(state.telemetry?.status ?: "ONLINE", color = Color.Black, fontWeight = FontWeight.Bold, modifier = Modifier.padding(2.dp))
+                }
+            }
+        }
+
+        // 3-Axis Vibration ISO 10816 & Acoustic Health Card
+        Card(
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = BrandSurface),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text("تشخيص الاهتزاز ثلاثي المحاور (ISO 10816)", fontWeight = FontWeight.Bold, color = BrandTextPrimary, fontSize = 13.sp)
+                    Surface(shape = RoundedCornerShape(6.dp), color = BrandPrimary.copy(alpha = 0.2f)) {
+                        Text("Zone A • ممتاز", fontSize = 10.sp, color = BrandPrimary, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
+                    }
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column {
+                        Text("سرعة الاهتزاز الفعالة (RMS)", fontSize = 11.sp, color = BrandTextSecondary)
+                        Text("1.05 mm/s (المحاور: X=1.0, Y=1.2, Z=0.9)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = BrandTextPrimary)
+                    }
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text("المجس الصوتي (Modbus RS485)", fontSize = 11.sp, color = BrandTextSecondary)
+                        Text("64.2 dB • العمر المتبقي 12,000h", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = BrandSecondary)
+                    }
                 }
             }
         }
